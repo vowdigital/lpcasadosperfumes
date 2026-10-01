@@ -257,7 +257,6 @@ function Footer() {
 
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} Casa dos Perfumes Importados</p>
-          <a className="footer-store-link" href="https://casadosperfumesimportados.com.br/" target="_blank" rel="noopener noreferrer">Visitar a loja <ArrowIcon /></a>
         </div>
       </div>
     </footer>

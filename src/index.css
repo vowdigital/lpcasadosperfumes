@@ -132,8 +132,6 @@ h2 { margin-bottom: 0; font-size: clamp(56px, 5.5vw, 82px); font-weight: 500; le
 .footer-column a:hover { color: #fff; text-decoration-color: #fff; }
 .footer-bottom { min-height: 85px; display: flex; justify-content: space-between; align-items: center; gap: 24px; border-top: 1px solid rgba(237, 223, 195, .18); }
 .footer-bottom p { margin: 0; font-size: 15px; }
-.footer-store-link { display: inline-flex; align-items: center; gap: 7px; color: #d8c5a6; font-size: 15px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
-.footer-store-link svg { width: 18px; height: 18px; transform: rotate(-45deg); }
 .sticky-cta { position: fixed; inset: auto 0 0; z-index: 20; display: none; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(25, 25, 41, .96); border-top: 1px solid rgba(217, 189, 138, .3); box-shadow: 0 -10px 30px rgba(0, 0, 0, .12); transform: translateY(110%); transition: transform .3s ease; }
 .sticky-cta--visible { transform: translateY(0); }
 .sticky-cta .cta { width: 100%; min-height: 50px; }
