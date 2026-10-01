@@ -1,50 +1,44 @@
-import { forwardRef, useEffect, useLayoutEffect, useRef, useState, type AnchorHTMLAttributes, type ReactNode, type RefObject } from 'react'
-import { gsap } from 'gsap'
+import { forwardRef, useEffect, useRef, useState, type AnchorHTMLAttributes, type ReactNode, type RefObject } from 'react'
 import aventusImage from '../img/creed-aventus.webp'
 import hacivatImage from '../img/nishane-hacivat.webp'
 import sabahImage from '../img/sabah-al-ward.webp'
 import fuegoImage from '../img/club-de-nuit-intenso-fuego.webp'
 import cocoImage from '../img/coco-mademoiselle-crush-absolu.webp'
 import logoImage from '../img/logo-casa-dos-perfumes.webp'
+import officialSiteImage from '../img/casa.png'
 
 const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/C7OJBwO7TMtKRoO5VGaHV6?s=cl&p=a&ilr=4&iam=1'
 
-type CtaPosition = 'hero' | 'final' | 'sticky'
+type CtaPosition = 'header' | 'hero' | 'final' | 'sticky'
 
 type Product = {
   name: string
   brand: string
+  category: string
   image: string
   alt: string
 }
 
 const products: Product[] = [
-  { name: 'Aventus', brand: 'Creed', image: aventusImage, alt: 'Creed Aventus 100ml' },
-  { name: 'Hacivat', brand: 'Nishane', image: hacivatImage, alt: 'Nishane Hacivat Extrait de Parfum' },
-  { name: 'Sabah Al Ward', brand: 'Al Wataniah', image: sabahImage, alt: 'Al Wataniah Sabah Al Ward' },
-  { name: 'Club de Nuit Intenso Fuego', brand: 'Armaf', image: fuegoImage, alt: 'Armaf Club de Nuit Intenso Fuego' },
-  { name: 'Coco Mademoiselle Crush Absolu', brand: 'Chanel, decant', image: cocoImage, alt: 'Chanel Coco Mademoiselle Crush Absolu em decant' },
-]
-
-const benefits = [
-  'Promoções exclusivas toda semana',
-  'Ofertas antecipadas para membros do grupo',
-  'Perfumes importados com preços especiais',
-  'Fique por dentro das oportunidades de fim de ano',
+  { name: 'Aventus', brand: 'Creed', category: 'Ícone da perfumaria', image: aventusImage, alt: 'Perfume Creed Aventus e sua embalagem' },
+  { name: 'Hacivat', brand: 'Nishane', category: 'Perfumaria de nicho', image: hacivatImage, alt: 'Perfume Nishane Hacivat e sua embalagem' },
+  { name: 'Sabah Al Ward', brand: 'Al Wataniah', category: 'Perfume árabe', image: sabahImage, alt: 'Perfume Al Wataniah Sabah Al Ward e sua embalagem' },
+  { name: 'Club de Nuit Intenso Fuego', brand: 'Armaf', category: 'Seleção especial', image: fuegoImage, alt: 'Perfume Armaf Club de Nuit Intenso Fuego e sua embalagem' },
+  { name: 'Coco Mademoiselle Crush Absolu', brand: 'Chanel', category: 'Decant', image: cocoImage, alt: 'Decant de Chanel Coco Mademoiselle Crush Absolu' },
 ]
 
 function trackCta(position: CtaPosition) {
   try {
     window.fbq?.('track', 'Lead', { content_name: 'Grupo VIP WhatsApp', position })
   } catch {
-    // Analytics is optional and must never block the conversion.
+    // A análise não pode impedir a navegação.
   }
 
   try {
     window.dataLayer = window.dataLayer ?? []
     window.dataLayer.push({ event: 'clique_grupo_vip', cta_posicao: position })
   } catch {
-    // GTM is optional and must never block the conversion.
+    // O GTM é opcional.
   }
 }
 
@@ -56,18 +50,10 @@ function WhatsAppIcon() {
   )
 }
 
-function SparkleIcon() {
+function ArrowIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-      <path d="m12 2 3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z" />
-    </svg>
-  )
-}
-
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M5 12.5 9.5 17 19 7.5" />
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3.5 10h12M10.5 5l5 5-5 5" />
     </svg>
   )
 }
@@ -77,7 +63,10 @@ type CtaLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode
 }
 
-const CtaLink = forwardRef<HTMLAnchorElement, CtaLinkProps>(function CtaLink({ position, children, className = '', onClick, ...props }, ref) {
+const CtaLink = forwardRef<HTMLAnchorElement, CtaLinkProps>(function CtaLink(
+  { position, children, className = '', onClick, ...props },
+  ref,
+) {
   return (
     <a
       {...props}
@@ -85,28 +74,28 @@ const CtaLink = forwardRef<HTMLAnchorElement, CtaLinkProps>(function CtaLink({ p
       href={WHATSAPP_GROUP_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className={`cta inline-flex items-center justify-center gap-3 rounded-[4px] border-b-[3px] border-gold bg-indigo px-7 py-4 text-center text-[0.92rem] font-bold tracking-[0.055em] text-white shadow-cta transition duration-200 hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold sm:px-8 ${className}`}
+      className={`cta ${className}`}
       onClick={(event) => {
         onClick?.(event)
         if (!event.defaultPrevented) trackCta(position)
       }}
     >
-      <WhatsAppIcon />
       {children}
+      <ArrowIcon />
     </a>
   )
 })
 
 function Header() {
   return (
-    <header className="bg-indigo border-b-2 border-gold">
-      <div className="mx-auto flex w-full max-w-[1120px] items-center justify-between gap-4 px-5 py-3.5 sm:px-6">
-        <a href="https://casadosperfumesimportados.com.br/" aria-label="Casa dos Perfumes Importados">
-          <img className="h-[46px] w-auto brightness-0 invert sm:h-[58px]" src={logoImage} alt="Casa dos Perfumes Importados" width="145" height="58" />
+    <header className="site-header">
+      <div className="container header-inner">
+        <a className="brand-link" href="https://casadosperfumesimportados.com.br/" aria-label="Casa dos Perfumes Importados — página inicial">
+          <img src={logoImage} alt="Casa dos Perfumes Importados" width="210" height="79" />
         </a>
-        <div className="flex items-center gap-2 text-[0.72rem] text-indigo-soft sm:text-xs">
-          <SparkleIcon />
-          <span className="hidden sm:inline">Grupo gratuito no WhatsApp</span>
+        <div className="header-actions">
+          <span className="header-note">Seu convite para o extraordinário</span>
+          <CtaLink position="header" className="header-cta">Entrar no grupo</CtaLink>
         </div>
       </div>
     </header>
@@ -115,94 +104,153 @@ function Header() {
 
 function Hero({ ctaRef }: { ctaRef: RefObject<HTMLAnchorElement | null> }) {
   return (
-    <section className="hero relative overflow-hidden bg-white" aria-labelledby="hero-title">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-[42rem] -translate-x-1/2 rounded-full bg-gold-wash/50 blur-3xl" aria-hidden="true" />
-      <div className="relative mx-auto flex w-full max-w-[860px] flex-col items-center px-5 py-16 text-center sm:px-6 sm:py-20">
-        <div className="reveal-item flex flex-col items-center">
-          <p className="mb-5 text-[0.7rem] font-bold uppercase tracking-[0.28em] text-gold">Acesso antecipado</p>
-          <h1 id="hero-title" className="max-w-3xl font-display text-[clamp(2.6rem,7vw,4.7rem)] font-semibold leading-[0.94] text-[#1a1a22]">
-            Entre para o Grupo VIP da Casa dos Perfumes
-          </h1>
-          <div className="my-5 h-0.5 w-16 bg-gold" aria-hidden="true" />
-          <p className="max-w-[40ch] text-[clamp(1.08rem,1.7vw,1.28rem)] font-medium leading-relaxed text-ink">
-            Promoções exclusivas, perfumes importados com preços especiais e ofertas toda semana.
-          </p>
-          <p className="mt-3 max-w-[44ch] text-sm leading-relaxed text-muted sm:text-base">
-            Prepare-se para os grandes descontos de fim de ano e garanta as melhores oportunidades antes de todo mundo.
-          </p>
-          <CtaLink ref={ctaRef} position="hero" className="mt-8 w-full sm:w-auto">
-            QUERO ENTRAR NO GRUPO VIP
-          </CtaLink>
-          <p className="mt-3 text-xs text-muted sm:text-sm">Entrada gratuita. Você sai do grupo quando quiser.</p>
+    <section className="hero" aria-labelledby="hero-title">
+      <div className="container hero-layout">
+        <div className="hero-copy">
+          <p className="eyebrow eyebrow--light"><span /> Casa dos Perfumes apresenta</p>
+          <h1 id="hero-title">O privilégio de <em>descobrir primeiro.</em></h1>
+          <p className="hero-description">Uma seleção de perfumes especiais, ofertas exclusivas e novidades em primeira mão. Tudo em um só lugar: nosso Grupo VIP.</p>
+          <CtaLink ref={ctaRef} position="hero" className="hero-cta"><WhatsAppIcon /> Quero fazer parte do Grupo VIP</CtaLink>
+          <p className="hero-footnote">Acesso gratuito <span aria-hidden="true">•</span> Diretamente no WhatsApp</p>
+        </div>
+
+        <div className="hero-art" aria-label="Seleção de perfumes da Casa dos Perfumes Importados">
+          <div className="hero-art-frame">
+            <span className="hero-art-index">01 / Uma curadoria especial</span>
+            <div className="hero-product hero-product--main">
+              <img src={aventusImage} alt="Creed Aventus" fetchPriority="high" />
+            </div>
+            <div className="hero-product hero-product--secondary">
+              <img src={hacivatImage} alt="Nishane Hacivat" fetchPriority="high" />
+            </div>
+            <div className="hero-art-caption"><span>FRAGRÂNCIAS QUE MARCAM</span><span>CASA DOS PERFUMES</span></div>
+          </div>
+          <span className="hero-art-orbit" aria-hidden="true" />
         </div>
       </div>
+      <div className="hero-bottom-line" aria-hidden="true" />
     </section>
+  )
+}
+
+function ValueStrip() {
+  return (
+    <div className="value-strip">
+      <div className="container value-strip-inner">
+        <p>Seleção especial de perfumes importados</p>
+        <span aria-hidden="true" />
+        <p>Novidades em primeira mão</p>
+        <span aria-hidden="true" />
+        <p>Um convite gratuito</p>
+      </div>
+    </div>
   )
 }
 
 function ProductShelf() {
   return (
-    <section className="bg-white px-5 pb-16 sm:px-6 sm:pb-20" aria-labelledby="vitrine-title">
-      <div className="mx-auto w-full max-w-[1120px]">
-        <div className="mb-8 text-center">
-          <h2 id="vitrine-title" className="font-display text-[clamp(2rem,4vw,2.7rem)] font-semibold leading-none text-[#1a1a22]">Do árabe ao nicho</h2>
-          <p className="mx-auto mt-2 max-w-[44ch] text-sm text-muted sm:text-base">Alguns dos perfumes importados que você encontra na Casa dos Perfumes.</p>
+    <section className="collection section-space" id="colecao" aria-labelledby="collection-title">
+      <div className="container">
+        <div className="section-heading collection-heading">
+          <div>
+            <p className="eyebrow"><span /> A coleção</p>
+            <h2 id="collection-title">Dos clássicos aos <em>inesperados.</em></h2>
+          </div>
+          <p>Explore alguns dos perfumes que fazem parte do universo da Casa dos Perfumes Importados.</p>
         </div>
-        <ul className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:flex-wrap sm:justify-center sm:gap-x-6 sm:gap-y-8 sm:overflow-visible sm:px-0">
-          {products.map((product) => (
-            <li className="reveal-item flex w-[78%] shrink-0 snap-start flex-col items-center text-center sm:w-[calc((100%_-_3rem)/3)] lg:w-[calc((100%_-_6rem)/5)]" key={product.name}>
-              <figure className="aspect-square w-full bg-white">
-                <img className="h-full w-full object-contain" src={product.image} alt={product.alt} loading="lazy" />
-              </figure>
-              <strong className="mt-2 block text-sm font-semibold leading-snug text-ink sm:text-[0.98rem]">{product.name}</strong>
-              <small className="mt-1 text-xs text-muted">{product.brand}</small>
+        <ul className="product-grid">
+          {products.map((product, index) => (
+            <li className="product-card" key={product.name}>
+              <div className="product-image-wrap">
+                <span className="product-number">0{index + 1}</span>
+                <img src={product.image} alt={product.alt} loading="lazy" />
+                <span className="product-category">{product.category}</span>
+              </div>
+              <div className="product-details">
+                <span>{product.brand}</span>
+                <h3>{product.name}</h3>
+              </div>
             </li>
           ))}
         </ul>
+        <p className="collection-note">Uma amostra do que você encontra por aqui. As ofertas disponíveis são compartilhadas no grupo.</p>
       </div>
     </section>
   )
 }
+
+const benefits = [
+  { number: '01', title: 'Ofertas em primeira mão', description: 'Receba as oportunidades antes de todo mundo, diretamente no seu WhatsApp.' },
+  { number: '02', title: 'Seleção especial', description: 'Descubra perfumes importados, fragrâncias de nicho e achados para a sua coleção.' },
+  { number: '03', title: 'Sem custo para entrar', description: 'O acesso ao grupo é gratuito. Participe e acompanhe as novidades no seu tempo.' },
+]
 
 function Benefits() {
   return (
-    <section className="border-y border-line bg-white px-5 py-16 sm:px-6 sm:py-20" aria-labelledby="benefits-title">
-      <div className="mx-auto grid w-full max-w-[1120px] items-start gap-8 lg:grid-cols-[.8fr_1.2fr] lg:gap-12">
-        <div className="reveal-item">
-          <h2 id="benefits-title" className="max-w-[15ch] font-display text-[clamp(2.2rem,4vw,2.9rem)] font-semibold leading-[1.02] text-[#1a1a22]">Por que entrar no Grupo VIP?</h2>
-          <p className="mt-4 max-w-[30ch] text-sm leading-relaxed text-muted sm:text-base">Quem está no grupo recebe as oportunidades antes de chegarem ao site.</p>
+    <section className="benefits section-space" aria-labelledby="benefits-title">
+      <div className="container benefits-layout">
+        <div className="benefits-intro">
+          <p className="eyebrow"><span /> Mais perto do que você ama</p>
+          <h2 id="benefits-title">O melhor acontece <em>antes.</em></h2>
+          <p>O Grupo VIP foi criado para quem gosta de descobrir uma boa oportunidade no momento certo.</p>
+          <div className="benefits-monogram" aria-hidden="true">CP</div>
         </div>
-        <ul className="reveal-item border-t border-line">
+        <ol className="benefits-list">
           {benefits.map((benefit) => (
-            <li className="flex items-center gap-4 border-b border-line py-5 text-sm font-medium text-ink sm:text-base" key={benefit}>
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-gold-light bg-gold-wash text-gold">
-                <CheckIcon />
-              </span>
-              {benefit}
+            <li key={benefit.number}>
+              <span className="benefit-number">{benefit.number}</span>
+              <div>
+                <h3>{benefit.title}</h3>
+                <p>{benefit.description}</p>
+              </div>
+              <ArrowIcon />
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   )
 }
 
-function FinalCta({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
+function FinalCta({ sectionRef }: { sectionRef: RefObject<HTMLElement | null> }) {
   return (
-    <section ref={sectionRef} className="final bg-white px-5 py-16 sm:px-6 sm:py-20" aria-labelledby="final-title">
-      <div className="mx-auto grid w-full max-w-[1120px] items-center gap-8 lg:grid-cols-[1.1fr_.9fr] lg:gap-12">
-        <div className="reveal-item order-2 lg:order-1">
-          <div className="relative aspect-square overflow-hidden bg-gold-wash">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(255,255,255,.95),transparent_60%)]" aria-hidden="true" />
-            <img className="relative h-full w-full object-contain p-5" src={hacivatImage} alt="Nishane Hacivat Extrait de Parfum" loading="lazy" />
-          </div>
+    <section ref={sectionRef} className="final-cta section-space" aria-labelledby="final-title">
+      <div className="container final-layout">
+        <div className="final-visual" aria-hidden="true">
+          <div className="final-visual-border" />
+          <img src={sabahImage} alt="" loading="lazy" />
+          <span>Um novo favorito pode estar a uma mensagem de distância.</span>
         </div>
-        <div className="reveal-item order-1 lg:order-2">
-          <p className="mb-3 text-[0.7rem] font-bold uppercase tracking-[0.28em] text-gold">Último convite</p>
-          <h2 id="final-title" className="max-w-[15ch] font-display text-[clamp(2.2rem,4vw,3rem)] font-semibold leading-[1.02] text-[#1a1a22]">Não fique de fora das melhores ofertas</h2>
-          <p className="mt-4 max-w-[38ch] text-sm leading-relaxed text-muted sm:text-base">Entre agora no Grupo VIP da Casa dos Perfumes e receba nossas promoções em primeira mão.</p>
-          <CtaLink position="final" className="mt-8 w-full sm:w-auto">ENTRAR NO GRUPO VIP</CtaLink>
-          <p className="mt-3 text-xs text-muted sm:text-sm">Entrada gratuita. Você sai do grupo quando quiser.</p>
+        <div className="final-copy">
+          <p className="eyebrow eyebrow--light"><span /> O convite está feito</p>
+          <h2 id="final-title">Seu próximo perfume começa <em>por aqui.</em></h2>
+          <p>Entre para o Grupo VIP e acompanhe ofertas exclusivas e novidades da Casa dos Perfumes Importados.</p>
+          <CtaLink position="final" className="final-button"><WhatsAppIcon /> Entrar no Grupo VIP</CtaLink>
+          <small>Gratuito para participar. Saia quando quiser.</small>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function OfficialSite() {
+  return (
+    <section className="official-site section-space" aria-labelledby="official-site-title">
+      <div className="container official-site-layout">
+        <div className="official-site-copy">
+          <p className="eyebrow"><span /> Visite nosso site oficial</p>
+          <h2 id="official-site-title">Conheça a Casa dos <em>Perfumes Importados.</em></h2>
+          <p className="official-site-description">Explore nossa loja e descubra uma seleção de fragrâncias para diferentes estilos e momentos.</p>
+          <a className="cta official-site-button" href="https://casadosperfumesimportados.com.br/" target="_blank" rel="noopener noreferrer">
+            Visitar o site oficial <ArrowIcon />
+          </a>
+        </div>
+        <div className="official-site-preview">
+          <div className="official-site-browser-bar" aria-hidden="true">
+            <span className="official-site-browser-dots"><i /><i /><i /></span>
+            <span>casadosperfumesimportados.com.br</span>
+          </div>
+          <img src={officialSiteImage} alt="Prévia da loja online Casa dos Perfumes Importados" loading="lazy" />
         </div>
       </div>
     </section>
@@ -211,9 +259,44 @@ function FinalCta({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | nu
 
 function Footer() {
   return (
-    <footer className="border-t-2 border-gold bg-indigo px-5 pb-8 pt-7 text-center text-xs text-indigo-soft sm:px-6">
-      <img className="mx-auto mb-3 h-11 w-auto brightness-0 invert" src={logoImage} alt="Casa dos Perfumes Importados" width="110" height="44" loading="lazy" />
-      <p>© Casa dos Perfumes Importados. Visite a loja: <a className="text-white underline underline-offset-2" href="https://casadosperfumesimportados.com.br/" target="_blank" rel="noopener noreferrer">casadosperfumesimportados.com.br</a></p>
+    <footer className="site-footer">
+      <div className="container">
+        <div className="footer-main">
+          <div className="footer-brand">
+            <a href="https://casadosperfumesimportados.com.br/" aria-label="Visitar Casa dos Perfumes Importados">
+              <img src={logoImage} alt="Casa dos Perfumes Importados" width="174" height="65" loading="lazy" />
+            </a>
+            <p>Perfumes que fazem parte da sua história.</p>
+          </div>
+
+          <div className="footer-column">
+            <h2>Contato</h2>
+            <ul>
+              <li><a href="https://wa.me/5511967384129" target="_blank" rel="noopener noreferrer">5511967384129</a></li>
+              <li><a href="tel:+5511926213297">11 926213297</a></li>
+              <li><a href="mailto:vendas@casadosperfumesimportados.com.br">vendas@casadosperfumesimportados.com.br</a></li>
+              <li>Caixa Postal 75418 - São Paulo - CEP 04132971</li>
+              <li><a href="https://casadosperfumesimportados.com.br/blog/" target="_blank" rel="noopener noreferrer">Visite o nosso Blog!</a></li>
+            </ul>
+          </div>
+
+          <nav className="footer-column" aria-label="Departamentos">
+            <h2>Departamentos</h2>
+            <ul>
+              <li><a href="https://casadosperfumesimportados.com.br/quem-somos1/" target="_blank" rel="noopener noreferrer">Quem Somos</a></li>
+              <li><a href="https://casadosperfumesimportados.com.br/trocas-e-devolucoes/" target="_blank" rel="noopener noreferrer">Trocas e Devoluções</a></li>
+              <li><a href="https://casadosperfumesimportados.com.br/politica-de-privacidade1/" target="_blank" rel="noopener noreferrer">Política de Privacidade</a></li>
+              <li><a href="https://casadosperfumesimportados.com.br/blog/" target="_blank" rel="noopener noreferrer">Blog | Tudo Perfume</a></li>
+              <li><a href="https://casadosperfumesimportados.com.br/atacado-revenda-perfumes-importados/" target="_blank" rel="noopener noreferrer">ATACADO | REVENDA PERFUMES IMPORTADOS</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div className="footer-bottom">
+          <p>© {new Date().getFullYear()} Casa dos Perfumes Importados</p>
+          <a className="footer-store-link" href="https://casadosperfumesimportados.com.br/" target="_blank" rel="noopener noreferrer">Visitar a loja <ArrowIcon /></a>
+        </div>
+      </div>
     </footer>
   )
 }
@@ -229,71 +312,40 @@ function StickyCta({ heroCtaRef, finalSectionRef }: { heroCtaRef: RefObject<HTML
     let heroVisible = true
     let finalVisible = false
     const update = () => setVisible(!heroVisible && !finalVisible)
-    const observerOptions = { threshold: 0.35 }
-    const heroObserver = new IntersectionObserver(([entry]) => {
-      heroVisible = entry.isIntersecting
-      update()
-    }, observerOptions)
-    const finalObserver = new IntersectionObserver(([entry]) => {
-      finalVisible = entry.isIntersecting
-      update()
-    }, observerOptions)
+    const options = { threshold: 0.1 }
+    const heroObserver = new IntersectionObserver(([entry]) => { heroVisible = entry.isIntersecting; update() }, options)
+    const finalObserver = new IntersectionObserver(([entry]) => { finalVisible = entry.isIntersecting; update() }, options)
 
     heroObserver.observe(heroCta)
     finalObserver.observe(finalSection)
-    return () => {
-      heroObserver.disconnect()
-      finalObserver.disconnect()
-    }
-  }, [finalSectionRef, heroCtaRef])
+    return () => { heroObserver.disconnect(); finalObserver.disconnect() }
+  }, [heroCtaRef, finalSectionRef])
 
   return (
-    <div className={`fixed inset-x-0 bottom-0 z-20 border-t border-line bg-white/90 p-3 pb-[calc(.75rem+env(safe-area-inset-bottom))] backdrop-blur-md transition-transform duration-300 sm:hidden ${visible ? 'translate-y-0' : 'translate-y-[110%]'}`} aria-hidden={!visible}>
-      <CtaLink position="sticky" className="w-full px-4 py-3 text-sm tracking-[0.03em]">QUERO ENTRAR NO GRUPO VIP</CtaLink>
+    <div className={`sticky-cta ${visible ? 'sticky-cta--visible' : ''}`} aria-hidden={!visible}>
+      <CtaLink position="sticky" tabIndex={visible ? 0 : -1}><WhatsAppIcon /> Entrar no Grupo VIP</CtaLink>
     </div>
   )
 }
 
 export default function App() {
-  const rootRef = useRef<HTMLDivElement>(null)
   const heroCtaRef = useRef<HTMLAnchorElement>(null)
   const finalSectionRef = useRef<HTMLElement>(null)
 
-  useLayoutEffect(() => {
-    const root = rootRef.current
-    if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    const context = gsap.context(() => {
-      const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      timeline
-        .from('.hero .reveal-item', { autoAlpha: 0, y: 22, duration: 0.8 })
-        .from('.shelf .reveal-item', { autoAlpha: 0, y: 16, duration: 0.45, stagger: 0.08 }, '-=0.3')
-
-      gsap.utils.toArray<HTMLElement>('.benefits .reveal-item, .final .reveal-item').forEach((element) => {
-        gsap.from(element, {
-          autoAlpha: 0,
-          y: 24,
-          duration: 0.7,
-          ease: 'power3.out',
-        })
-      })
-    }, root)
-
-    return () => context.revert()
-  }, [])
-
   return (
-    <div ref={rootRef} className="min-h-screen overflow-x-hidden bg-white font-sans text-ink">
-      <a className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-4 focus:py-3 focus:text-indigo" href="#main-content">Pular para o conteúdo</a>
+    <>
+      <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
       <Header />
       <main id="main-content">
         <Hero ctaRef={heroCtaRef} />
+        <ValueStrip />
         <ProductShelf />
         <Benefits />
         <FinalCta sectionRef={finalSectionRef} />
+        <OfficialSite />
       </main>
       <Footer />
       <StickyCta heroCtaRef={heroCtaRef} finalSectionRef={finalSectionRef} />
-    </div>
+    </>
   )
 }
