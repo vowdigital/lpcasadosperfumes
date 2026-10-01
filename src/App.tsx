@@ -247,8 +247,6 @@ function Footer() {
           <div className="footer-column">
             <h2>Contato</h2>
             <ul>
-              <li><a href="https://wa.me/5511967384129" target="_blank" rel="noopener noreferrer">5511967384129</a></li>
-              <li><a href="tel:+5511926213297">11 926213297</a></li>
               <li><a href="mailto:vendas@casadosperfumesimportados.com.br">vendas@casadosperfumesimportados.com.br</a></li>
               <li>Caixa Postal 75418 - São Paulo - CEP 04132971</li>
               <li><a href="https://casadosperfumesimportados.com.br/blog/" target="_blank" rel="noopener noreferrer">Visite o nosso Blog!</a></li>
