@@ -5,7 +5,6 @@ import sabahImage from '../img/sabah-al-ward.webp'
 import fuegoImage from '../img/club-de-nuit-intenso-fuego.webp'
 import cocoImage from '../img/coco-mademoiselle-crush-absolu.webp'
 import logoImage from '../img/logo-casa-dos-perfumes.webp'
-import officialSiteImage from '../img/casa.png'
 
 const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/C7OJBwO7TMtKRoO5VGaHV6?s=cl&p=a&ilr=4&iam=1'
 
@@ -233,30 +232,6 @@ function FinalCta({ sectionRef }: { sectionRef: RefObject<HTMLElement | null> })
   )
 }
 
-function OfficialSite() {
-  return (
-    <section className="official-site section-space" aria-labelledby="official-site-title">
-      <div className="container official-site-layout">
-        <div className="official-site-copy">
-          <p className="eyebrow"><span /> Visite nosso site oficial</p>
-          <h2 id="official-site-title">Conheça a Casa dos <em>Perfumes Importados.</em></h2>
-          <p className="official-site-description">Explore nossa loja e descubra uma seleção de fragrâncias para diferentes estilos e momentos.</p>
-          <a className="cta official-site-button" href="https://casadosperfumesimportados.com.br/" target="_blank" rel="noopener noreferrer">
-            Visitar o site oficial <ArrowIcon />
-          </a>
-        </div>
-        <div className="official-site-preview">
-          <div className="official-site-browser-bar" aria-hidden="true">
-            <span className="official-site-browser-dots"><i /><i /><i /></span>
-            <span>casadosperfumesimportados.com.br</span>
-          </div>
-          <img src={officialSiteImage} alt="Prévia da loja online Casa dos Perfumes Importados" loading="lazy" />
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function Footer() {
   return (
     <footer className="site-footer">
@@ -280,16 +255,6 @@ function Footer() {
             </ul>
           </div>
 
-          <nav className="footer-column" aria-label="Departamentos">
-            <h2>Departamentos</h2>
-            <ul>
-              <li><a href="https://casadosperfumesimportados.com.br/quem-somos1/" target="_blank" rel="noopener noreferrer">Quem Somos</a></li>
-              <li><a href="https://casadosperfumesimportados.com.br/trocas-e-devolucoes/" target="_blank" rel="noopener noreferrer">Trocas e Devoluções</a></li>
-              <li><a href="https://casadosperfumesimportados.com.br/politica-de-privacidade1/" target="_blank" rel="noopener noreferrer">Política de Privacidade</a></li>
-              <li><a href="https://casadosperfumesimportados.com.br/blog/" target="_blank" rel="noopener noreferrer">Blog | Tudo Perfume</a></li>
-              <li><a href="https://casadosperfumesimportados.com.br/atacado-revenda-perfumes-importados/" target="_blank" rel="noopener noreferrer">ATACADO | REVENDA PERFUMES IMPORTADOS</a></li>
-            </ul>
-          </nav>
         </div>
 
         <div className="footer-bottom">
@@ -342,7 +307,6 @@ export default function App() {
         <ProductShelf />
         <Benefits />
         <FinalCta sectionRef={finalSectionRef} />
-        <OfficialSite />
       </main>
       <Footer />
       <StickyCta heroCtaRef={heroCtaRef} finalSectionRef={finalSectionRef} />
