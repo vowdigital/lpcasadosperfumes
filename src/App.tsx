@@ -1,5 +1,8 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import logoImage from '../img/logo-casa-dos-perfumes.webp'
+import perfume1 from '../img/perfumes/perfume1.webp'
+import perfume2 from '../img/perfumes/perfume2.webp'
+import perfume3 from '../img/perfumes/perfume3.webp'
 import { trackClick, trackVisit } from './analytics'
 import { LINKS, type LinkId } from './config'
 
@@ -33,6 +36,25 @@ function ArrowIcon() {
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M3.5 10h12M10.5 5l5 5-5 5" />
     </svg>
+  )
+}
+
+// A ordem define a posição no leque: esquerda, centro (destaque) e direita.
+const PERFUMES = [
+  { src: perfume1, alt: 'Perfume importado feminino' },
+  { src: perfume2, alt: 'Perfume importado unissex' },
+  { src: perfume3, alt: 'Perfume importado masculino' },
+]
+
+function PerfumeShowcase() {
+  return (
+    <div className="showcase">
+      {PERFUMES.map((perfume) => (
+        <div className="showcase-card" key={perfume.src}>
+          <img src={perfume.src} alt={perfume.alt} width="1000" height="1000" loading="eager" />
+        </div>
+      ))}
+    </div>
   )
 }
 
@@ -72,6 +94,8 @@ export default function App() {
     <main className="page">
       <div className="card">
         <img className="logo" src={logoImage} alt="Casa dos Perfumes Importados" width="210" height="79" fetchPriority="high" />
+
+        <PerfumeShowcase />
 
         <h1>As melhores oportunidades em perfumes estão no nosso <em>Grupo VIP.</em></h1>
         <p className="lead">Entre no grupo e acompanhe nossas ofertas e novidades.</p>
