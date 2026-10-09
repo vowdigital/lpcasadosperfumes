@@ -3,12 +3,12 @@ PENDÊNCIAS | DEMANDA 1 - LP Grupo VIP Casa dos Perfumes
 VALIDAÇÃO (antes de publicar)
 [ ] Conferir a página renderizada no celular (375, 390, 768 e 1280 px), sem rolagem horizontal.
     Nada foi visto no navegador até agora: o Chrome (extensão Claude) não conectou. Alternativa: Playwright.
-[ ] Clicar nos 3 links e confirmar que cada URL abre no destino certo.
+[ ] Clicar nos 2 links e confirmar que cada URL abre no destino certo.
 [ ] Confirmar no dataLayer que os eventos saem separados:
-    visita_lp, clique_grupo_vip, clique_loja, clique_atendimento (com link_id e link_url).
+    visita_lp, clique_grupo_vip, clique_loja (com link_id e link_url).
 
 RASTREAMENTO (depende de acesso ao GTM / Meta)
-[ ] Criar no GTM (GTM-NDS82V5P) os gatilhos dos 4 eventos acima.
+[ ] Criar no GTM (GTM-NDS82V5P) os gatilhos dos 3 eventos acima.
 [ ] Criar as tags de GA4 e do Pixel da Meta.
 [ ] O Pixel da Meta não é carregado em lugar nenhum do projeto (o código só chama fbq se existir).
     Instalar pelo GTM ou por script quando o ID chegar.
@@ -21,8 +21,6 @@ DOMÍNIO, HOSTING E SSL (depende de acesso)
 
 LINKS E CONTEÚDO
 [ ] Link definitivo do grupo VIP: hoje vale o link atual (src/config.ts). Trocar via VITE_GRUPO_VIP_URL.
-[ ] Atendimento: hoje usa o e-mail vendas@casadosperfumesimportados.com.br (suposição, era o único contato
-    existente). Confirmar se o destino correto é WhatsApp e definir VITE_ATENDIMENTO_URL.
 
 IDENTIDADE VISUAL
 [ ] Receber os materiais oficiais. Hoje usa o logo e as cores que já estavam no projeto.

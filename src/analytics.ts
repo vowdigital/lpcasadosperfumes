@@ -3,7 +3,6 @@ import type { LinkId } from './config'
 const EVENT_NAMES: Record<LinkId, string> = {
   grupo_vip: 'clique_grupo_vip',
   loja: 'clique_loja',
-  atendimento: 'clique_atendimento',
 }
 
 function pushToDataLayer(payload: Record<string, unknown>) {

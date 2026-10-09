@@ -22,15 +22,6 @@ function StoreIcon() {
   )
 }
 
-function ChatIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z" />
-      <path d="M9 11.5h6M9 14.5h3.5" />
-    </svg>
-  )
-}
-
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -110,10 +101,6 @@ export default function App() {
           <TrackedLink id="loja" className="secondary-link">
             <StoreIcon />
             Visitar a loja
-          </TrackedLink>
-          <TrackedLink id="atendimento" className="secondary-link">
-            <ChatIcon />
-            Falar com atendimento
           </TrackedLink>
         </nav>
       </div>
